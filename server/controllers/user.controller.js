@@ -7,14 +7,19 @@ import jwt from "jsonwebtoken";
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    //Initial Checks 
     if (!name || !email || !password) {
       return res.status(401).json({
         message: "Missing Details",
         success: false,
       });
     }
+
+    //Hashing Plan Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    //Adding User 
     const userData = { name, email, password: hashedPassword };
 
     const newUser = new userModel(userData);
